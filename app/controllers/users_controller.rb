@@ -4,18 +4,24 @@ class UsersController < ApplicationController
 
   # REGISTER
   def create
-    @user = User.create(user_params)
-    if @user.valid?
-      token = encode_token({user_id: @user.id})
-      render json: {
-        data: @user,
-        message: "Account created.",
-        status: "Success",
-        token: token
-      }
+    if user_params[:password] == params[:confirm_password]
+      @user = User.create(user_params)
+      if @user.valid?
+        token = encode_token({user_id: @user.id})
+        render json: {
+          data: @user,
+          message: "Account created.",
+          status: "Success",
+          token: token
+        }
+      else
+        render json: {
+          message: "Invalid email or password.",
+          status: "Error"}, status: :unprocessable_entity
+      end
     else
       render json: {
-        message: "Invalid email or password",
+        message: "Passwords does not match.",
         status: "Error"}, status: :unprocessable_entity
     end
   end
@@ -34,7 +40,7 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        message: "Invalid email or password",
+        message: "Invalid email or password.",
         status:"Error"}, status: :unprocessable_entity
     end
   end

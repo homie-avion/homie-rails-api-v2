@@ -7,6 +7,8 @@ gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 
+# for hashing passwords
+gem 'bcrypt', '~> 3.1.7'
 # authentication
 gem 'jwt'
 

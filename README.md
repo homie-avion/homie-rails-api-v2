@@ -1,24 +1,47 @@
-# README
+# Hi there 👋
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repo serves as the main repo for our Rails Projects. 
 
-Things you may want to cover:
 
-* Ruby version
+#### Version
 
-* System dependencies
+```
+  Ruby 2.7.2
+  Rails 6.0.3.4
+  NodeJS 12.18.3
+  Yarn 1.22.4
+```
 
-* Configuration
+#### Installation
 
-* Database creation
 
-* Database initialization
+Clone this repo
+```
+  $ git clone https://github.com/homie-avion/homie-rails-api-v2.git
+  $ cd homie-rails-api-v2
+```
 
-* How to run the test suite
+#### Setup
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+  $ bundle install
+  $ rake db:setup
+```
 
-* Deployment instructions
+#### Starting the application
 
-* ...
+```
+  $ rails server
+```
+
+#### How to run the test suite
+
+```
+  $ rspec
+```
+
+#### How to run the Ruby Linter
+
+```
+  $ rubocop
+```
