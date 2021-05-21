@@ -4,13 +4,15 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :username
       t.string :password_digest
       t.string :email
-      
-      t.string :first_name
-      t.string :last_name
 
-      t.string :property_type_preference
-      t.integer :rent_price_preference
-      t.integer :length_of_stay_preference
+      t.references :role
+      
+      t.string :first_name, null: true
+      t.string :last_name, null: true
+
+      t.string :property_type_preference, null: true
+      t.integer :rent_price_preference, null: true
+      t.integer :length_of_stay_preference, null: true
 
       t.integer :city_preference, array: true
 

@@ -1,17 +1,20 @@
 require 'rails_helper'
+require 'json'
 
 RSpec.describe "Auth", type: :request do
 
   describe "Signing Up" do
 
     before do
-      @newUser = { username: "test", email:"test@gmail.com", password: "Applepen123", confirm_password: "Applepen123" }
+      @role = create :role, :tenant
+      @newUser = {username: "test", email:"test@gmail.com", password: "Applepen123", confirm_password: "Applepen123", role_id: @role.id}
       @duplicateUser = @newUser
-      @passwordsDoesNotMatch = { username: "test1", email:"test1@gmail.com", password: "Applepen123", confirm_password: "agentOrange123" }
+      @passwordsDoesNotMatch = { username: "test1", email:"test1@gmail.com", password: "Applepen123", confirm_password: "agentOrange123", role_id: @role.id }
     end
     
     it "Should sign-up a user" do
       post users_url, params: @newUser, as: :json
+      puts response.inspect
       expect(response.status).to eq(200)
     end
 
@@ -31,12 +34,13 @@ RSpec.describe "Auth", type: :request do
   describe "Logging In" do
     before do
       # Create a user in test database
-      @user = create :user, :user1
+      @role = create :role, :tenant
+      @user = create :user, :user1, role_id: @role.id
     end
 
     it "Should log-in a valid user" do
       post login_url, params: {email: @user.email, password: @user.password }, as: :json
-      # puts eval(@response.body)[:token]
+      # puts response.inspect
       expect(response.status).to eq(200)
     end
 
@@ -50,10 +54,13 @@ RSpec.describe "Auth", type: :request do
   describe "Auto Log-in" do
     before do
       #  create user in db
-      @user = create :user, :user1
+
+      @role = create :role, :tenant
+      @user = create :user, :user1, role_id: @role.id
       # log in a user
       post login_url, params: {email: @user.email, password: @user.password }, as: :json
-      @token = eval(@response.body)[:token]
+      @token = JSON.parse(response.body)["token"]
+
     end
 
     it "Should auto log-in a valid user" do

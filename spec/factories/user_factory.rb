@@ -4,6 +4,7 @@ FactoryBot.define do
       email {'user@gmail.com'}
       username {'user'}
       password {'123456'}
+      role_id {1}
     end
 
     # trait :user do

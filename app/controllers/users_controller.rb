@@ -4,8 +4,10 @@ class UsersController < ApplicationController
 
   # REGISTER
   def create
+  
     if user_params[:password] == params[:confirm_password]
       @user = User.create(user_params)
+      # puts @user.errors.inspect
       if @user.valid?
         token = encode_token({user_id: @user.id})
         render json: {
@@ -91,6 +93,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:username, :password, :email)
+    params.permit(:username, :password, :email, :role_id, :first_name, :last_name,
+                  :property_type_preference, :rent_price_preference,
+                  :length_of_stay_preference, :city_preference)
   end
 end
