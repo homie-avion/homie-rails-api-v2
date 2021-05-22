@@ -28,6 +28,7 @@ RSpec.describe "Auth", type: :request do
       post users_url, params: @passwordsDoesNotMatch, as: :json
       expect(response.status).to eq(422)
     end
+    
 
   end
 

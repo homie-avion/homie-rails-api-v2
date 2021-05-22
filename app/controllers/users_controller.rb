@@ -5,10 +5,18 @@ class UsersController < ApplicationController
   # REGISTER
   def create
   
-    if user_params[:password] == params[:confirm_password]
+    if user_params[:password] != params[:confirm_password]
+      render json: {
+        message: "Passwords does not match.",
+        status: "Error"}, status: :unprocessable_entity
+    else
+      
+      role = Role.find_by(name: params[:role])
+
       @user = User.create(user_params)
+
       # puts @user.errors.inspect
-      if @user.valid?
+      if @user.valid? && @user.role_id == role.id
         token = encode_token({user_id: @user.id})
         render json: {
           data: @user,
@@ -21,18 +29,15 @@ class UsersController < ApplicationController
           message: "Invalid email or password.",
           status: "Error"}, status: :unprocessable_entity
       end
-    else
-      render json: {
-        message: "Passwords does not match.",
-        status: "Error"}, status: :unprocessable_entity
     end
   end
 
   # LOGGING IN
   def login
+    #
     @user = User.find_by(email: params[:email])
 
-    if @user && @user.authenticate(params[:password])
+    if @user &&  @user.authenticate(params[:password])
       token = encode_token({user_id: @user.id})
       render json: {
         data: @user,
@@ -45,6 +50,7 @@ class UsersController < ApplicationController
         message: "Invalid email or password.",
         status:"Error"}, status: :unprocessable_entity
     end
+
   end
 
 
