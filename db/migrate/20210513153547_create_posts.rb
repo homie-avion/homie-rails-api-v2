@@ -10,11 +10,13 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.decimal :longitude, precision: 10, scale: 6
       t.integer :like_count
       t.integer :watch_list_count
-      t.integer :homie_value
-      t.integer :cost_living_index
-      t.integer :flood_index
+      t.integer :homie_value, default: 5
+      t.integer :cost_living_index, default: 5
+      t.integer :flood_index, default: 5
       t.string :status
 
+      t.references :user
+      t.references :property
       t.timestamps
       
     end

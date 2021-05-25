@@ -16,3 +16,5 @@ Role.new(name: "admin").save
 
 tenant = User.new(username: "tenant", password: "123456", email: "tenant@gmail.com", role_id: Role.find_by(name: "tenant").id).save
 landlord = User.new(username: "landlord", password: "123456", email: "landlord@gmail.com", role_id: Role.find_by(name: "landlord").id).save
+
+City.new(name: "Quezon City", latitude: 14.6760, longitude: 121.0437).save

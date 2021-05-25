@@ -10,15 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_211915) do
+ActiveRecord::Schema.define(version: 2021_05_25_095928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "chats", force: :cascade do |t|
-    t.boolean "success"
+  create_table "answers", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.boolean "success", default: false
+    t.bigint "user_id"
+    t.bigint "sender_id"
+    t.bigint "receiver_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receiver_id"], name: "index_chats_on_receiver_id"
+    t.index ["sender_id"], name: "index_chats_on_sender_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "cities", force: :cascade do |t|
@@ -45,12 +56,16 @@ ActiveRecord::Schema.define(version: 2021_05_19_211915) do
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "like_count"
     t.integer "watch_list_count"
-    t.integer "homie_value"
-    t.integer "cost_living_index"
-    t.integer "flood_index"
+    t.integer "homie_value", default: 5
+    t.integer "cost_living_index", default: 5
+    t.integer "flood_index", default: 5
     t.string "status"
+    t.bigint "user_id"
+    t.bigint "property_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["property_id"], name: "index_posts_on_property_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -59,8 +74,18 @@ ActiveRecord::Schema.define(version: 2021_05_19_211915) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -86,4 +111,6 @@ ActiveRecord::Schema.define(version: 2021_05_19_211915) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "chats", "users", column: "receiver_id"
+  add_foreign_key "chats", "users", column: "sender_id"
 end

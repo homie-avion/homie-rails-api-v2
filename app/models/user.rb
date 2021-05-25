@@ -8,5 +8,8 @@ class User < ApplicationRecord
 
   belongs_to :role
   has_many :posts, dependent: :nullify
-  has_many :chats, dependent: :nullify
+  has_many :chats
+  has_many :senders, class_name: "Chat", foreign_key: "sender_id", dependent: :nullify
+  has_many :receiver, class_name: "Chat", foreign_key: "receiver_id", dependent: :nullify
+  
 end
