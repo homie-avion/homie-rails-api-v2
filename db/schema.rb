@@ -55,9 +55,14 @@ ActiveRecord::Schema.define(version: 2021_05_26_073530) do
 
   create_table "properties", force: :cascade do |t|
     t.string "name"
+    t.integer "rent_price"
     t.integer "tenant_count"
     t.integer "property_count"
-    t.string "address"
+    t.string "bldg_no"
+    t.string "street"
+    t.string "barangay"
+    t.text "complete_address"
+    t.text "picture_urls", default: [], array: true
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "like_count", default: 0
@@ -65,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_05_26_073530) do
     t.integer "homie_value", default: 5
     t.integer "cost_living_index", default: 5
     t.integer "flood_index", default: 5
-    t.string "status"
+    t.boolean "posted", default: false
     t.bigint "user_id"
     t.bigint "city_id"
     t.bigint "rent_id"
@@ -108,8 +113,7 @@ ActiveRecord::Schema.define(version: 2021_05_26_073530) do
 
   create_table "rents", force: :cascade do |t|
     t.string "name"
-    t.integer "minimum"
-    t.integer "maximum"
+    t.string "filter_expression"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

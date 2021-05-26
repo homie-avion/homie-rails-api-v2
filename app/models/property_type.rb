@@ -3,6 +3,6 @@ class PropertyType < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :rent_preferences
-  has_many :users, through: :rent_preferences
+  has_many :property_type_preferences
+  has_many :users, through: :property_type_preferences
 end

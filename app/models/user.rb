@@ -8,8 +8,9 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :role
-  has_many :properties, dependent: :nullify
-  has_many :chats
+  has_many :properties, dependent: :destroy
+  
+  has_many :chats, dependent: :destroy
   has_many :user, class_name: "Chat", foreign_key: "user_id", dependent: :nullify
   has_many :partner, class_name: "Chat", foreign_key: "partner_id", dependent: :nullify
   

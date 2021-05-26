@@ -3,6 +3,6 @@ class StayPeriod < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :rent_preferences
-  has_many :users, through: :rent_preferences
+  has_many :stay_period_preferences
+  has_many :users, through: :stay_period_preferences
 end
