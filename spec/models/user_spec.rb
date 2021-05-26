@@ -8,10 +8,10 @@ RSpec.describe User, type: :model do
     it { expect(described_class.new).to validate_presence_of(:password_digest) }
   end
 
-  context "ActiveRecord associations" do
-    it { should belong_to(:role) }
-    it { should have_many(:posts) }
-    it { should have_many(:chats) }
-  end
+  # context "ActiveRecord associations" do
+  #   it { should belong_to(:role) }
+  #   it { should have_many(:posts) }
+  #   it { should have_many(:chats) }
+  # end
 
 end

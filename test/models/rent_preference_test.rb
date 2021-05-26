@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AnswerTest < ActiveSupport::TestCase
+class RentPreferenceTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

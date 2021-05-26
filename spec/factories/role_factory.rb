@@ -1,15 +1,12 @@
 FactoryBot.define do
   factory :role do
-    trait :tenant do
-      name {"tenant"}
+    trait :user_role do
+      name {"user"}
     end
 
-    trait :landlord do
-      name {"landlord"}
+    trait :partner_role do
+      name {"partner"}
     end
 
-    trait :admin do
-      name {"admin"}
-    end
   end
 end

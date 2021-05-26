@@ -6,15 +6,21 @@ RSpec.describe "Auth", type: :request do
   describe "Signing Up" do
 
     before do
-      @role = create :role, :tenant
-      @newUser = {username: "test", email:"test@gmail.com", password: "Applepen123", confirm_password: "Applepen123", role_id: @role.id}
+      @role = create :role, :user_role
+      @newUser = {username: "test",
+                  email:"test@gmail.com", 
+                  password: "Applepen123", 
+                  confirm_password: "Applepen123", 
+                  role_id: @role.id, 
+                  role:@role.name # comes from react
+                }
       @duplicateUser = @newUser
       @passwordsDoesNotMatch = { username: "test1", email:"test1@gmail.com", password: "Applepen123", confirm_password: "agentOrange123", role_id: @role.id }
     end
     
     it "Should sign-up a user" do
       post users_url, params: @newUser, as: :json
-      puts response.inspect
+      # puts response.inspect
       expect(response.status).to eq(200)
     end
 
@@ -35,7 +41,7 @@ RSpec.describe "Auth", type: :request do
   describe "Logging In" do
     before do
       # Create a user in test database
-      @role = create :role, :tenant
+      @role = create :role, :user_role
       @user = create :user, :user1, role_id: @role.id
     end
 
@@ -56,7 +62,7 @@ RSpec.describe "Auth", type: :request do
     before do
       #  create user in db
 
-      @role = create :role, :tenant
+      @role = create :role, :user_role
       @user = create :user, :user1, role_id: @role.id
       # log in a user
       post login_url, params: {email: @user.email, password: @user.password }, as: :json

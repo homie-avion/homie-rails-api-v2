@@ -4,9 +4,11 @@ class CreateChats < ActiveRecord::Migration[6.1]
 
       t.boolean :success, default: false
 
-      t.references :user
-      t.references :sender, foreign_key: { to_table: :users }
-      t.references :receiver, foreign_key: { to_table: :users }
+      t.references :user, foreign_key: { to_table: :users }
+      t.references :partner, foreign_key: { to_table: :users }
+      
+      t.references :property
+      
       t.timestamps
     end
   end

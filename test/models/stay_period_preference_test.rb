@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SurveyTest < ActiveSupport::TestCase
+class StayPeriodPreferenceTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

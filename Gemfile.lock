@@ -86,6 +86,7 @@ GEM
     hashdiff (1.0.1)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    json (2.5.1)
     jwt (2.2.3)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -221,6 +222,7 @@ DEPENDENCIES
   byebug
   database_rewinder
   factory_bot_rails
+  json
   jwt
   listen (~> 3.3)
   pg (~> 1.1)

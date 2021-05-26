@@ -1,10 +1,10 @@
 class Chat < ApplicationRecord
   validates :success, inclusion: [true, false]
 
-  belongs_to :post
+  belongs_to :property
   has_many :messages, dependent: :nullify
 
-  belongs_to :sender, class_name: "User"
-  belongs_to :receiver, class_name: "User"  
+  belongs_to :user, class_name: "User"
+  belongs_to :partner, class_name: "User"  
 
 end

@@ -38,9 +38,15 @@ class UsersController < ApplicationController
     @user = User.find_by(email: params[:email])
 
     if @user &&  @user.authenticate(params[:password])
+      
+      cities_preferred = @user.cities.pluck(:name).inspect
+
       token = encode_token({user_id: @user.id})
       render json: {
-        data: @user,
+        data: {
+          user: @user,
+          cities_preferred: cities_preferred
+        },
         message: "User successfully logged in.",
         status: "Success",
         token: token
@@ -55,8 +61,10 @@ class UsersController < ApplicationController
 
 
   def auto_login
+    cities_preferred = @user.cities.pluck(:name).inspect
     render json: {
-      data: @user
+      user: @user,
+      cities_preferred: cities_preferred
     }
   end
 
