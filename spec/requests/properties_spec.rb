@@ -53,7 +53,7 @@ RSpec.describe "Properties API:", type: :request do
     end
 
     it "GET /properties/:id should NOT get a property if not existing" do
-      get property_url(id: 11), headers: @auth , as: :json
+      get property_url(id: 101), headers: @auth , as: :json
       msg = JSON.parse(response.body)["message"]
       
       expect(response.status).to eq(404)

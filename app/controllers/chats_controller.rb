@@ -1,11 +1,16 @@
 class ChatsController < ApplicationController
   before_action :authorized
+  before_action :get_role
   before_action :set_chat, only: [:show, :update, :destroy]
 
   # GET /chats
   def index
     # @chats = Chat.all
-    @chats = Chat.where(user_id: @user.id)
+    if @role.name == "user"
+      @chats = Chat.where(user_id: @user.id)
+    else 
+      @chats = Chat.where(partner_id: @user.id)
+    end
 
     render json: {
                   status: "Success",
@@ -16,11 +21,15 @@ class ChatsController < ApplicationController
 
   # GET /chats/1
   def show
+    get_messages
     render json: {
-      status: "Success",
-      message: "Chat loaded.",
-      data: @chat
-      }, status: :ok
+                  status: "Success",
+                  message: "Chat loaded.",
+                  data: { 
+                        chat: @chat,
+                        messages: @messages
+                        }
+                  }, status: :ok
   end
 
   # POST /chats
@@ -78,9 +87,20 @@ class ChatsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def get_role
+      @role = Role.find(@user.role_id)
+    end
+
+    def get_messages
+      @messages = Message.where(chat_id:@chat.id)
+    end
+
     def set_chat
-      # @chat = Chat.find(params[:id])
-      @chat = Chat.where({id: params[:id], user_id: @user.id })
+      if @role.name == "user"
+        @chat = Chat.where({id: params[:id], user_id: @user.id })
+      else 
+        @chat = Chat.where({id: params[:id], partner_id: @user.id })
+      end
       return item_not_found
     end
 
@@ -95,8 +115,13 @@ class ChatsController < ApplicationController
       end
     end
 
+    def verify_user(user_id)
+      return @user.id.to_i == user_id.to_i
+    end
+
     # Only allow a list of trusted parameters through.
     def chat_params
       params.require(:chat).permit(:success, :user_id, :partner_id, :property_id)
     end
+
 end

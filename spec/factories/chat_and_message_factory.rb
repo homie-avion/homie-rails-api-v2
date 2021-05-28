@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :chat do
     trait :sample_chat do
-      success {nil}
+      success {false}
       user_id {nil}
       partner_id {nil}
       property_id {nil}
