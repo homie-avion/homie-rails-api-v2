@@ -63,7 +63,7 @@ RSpec.describe "Chats:", type: :request do
 
     it "Should GET a single chat with messages by chat_id" do
       get chat_url(id: @chat.id), headers: @auth1 , as: :JSON
-      puts JSON.parse(response.body)
+      # puts JSON.parse(response.body)
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)["data"]["chat"]["id"]).to eq(@chat.id)
     end

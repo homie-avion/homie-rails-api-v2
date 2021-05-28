@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :messages, only: [:show, :create, :update, :destroy]
+  resources :messages
   resources :chats
 
   match "/chats/partner/:id" => "chats#get_all_chats_by_partner_id", via: [:get], as: :get_all_chats_by_partner_id
   
   resources :properties
-
-
 
   # user routes 
   resource :users, only: [:create]
