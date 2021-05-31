@@ -1,4 +1,6 @@
 class Property < ApplicationRecord
+  paginates_per 5
+
   validates :name, presence: true
 
   validates :tenant_count, :property_count, presence: true, numericality: { greater_than_or_equal_to: 0 }

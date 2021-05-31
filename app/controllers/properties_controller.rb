@@ -5,7 +5,7 @@ class PropertiesController < ApplicationController
   # GET /properties
   def index
     # @properties = Property.all
-    @properties = Property.where(user_id: @user.id)
+    @properties = Property.where(user_id: @user.id).order(created_at: :DESC).page(params[:page])
 
     render json: {
                   status: "Success",

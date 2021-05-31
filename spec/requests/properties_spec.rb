@@ -3,7 +3,7 @@ require 'json'
 
 RSpec.describe "Properties API:", type: :request do
 
-  describe "REQUESTS" do
+  context "REQUESTS" do
     before do
       # create role, user, city, rent, stay_period, property_type, property
       @role = create :role, :partner_role
@@ -13,7 +13,10 @@ RSpec.describe "Properties API:", type: :request do
       @rent = create :rent, :price1
       @stay_period = create :stay_period, :months6
       @property_type = create :property_type, :condo 
-      @property = create :property, :sample_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
+      # @property = create :property, :sample_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
+      @property = create :random_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
+      
+      @properties = create_list :random_property, 10, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
       @property_params = attributes_for :property, :sample_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
       
       # log in a user
@@ -24,13 +27,13 @@ RSpec.describe "Properties API:", type: :request do
     
     # GET /properties
     it "GET /properties should get the properties of a valid user" do
-      get properties_url, headers: @auth , as: :json
+      get properties_url({page: 1}), headers: @auth , as: :json
 
-      place_name = JSON.parse(response.body)["data"][0]
-      
+      place_name = JSON.parse(response.body)["data"]
+      puts JSON.parse(response.body)["data"]
       expect(response.status).to eq(200)
-      expect(place_name["name"]).to eq(@property.name)
-      expect(place_name["user_id"]).to eq(@user.id)
+      expect(place_name.length).to eq(5)
+      # expect(place_name["user_id"]).to eq(@user.id)
     end
 
     # GET /properties
@@ -66,7 +69,7 @@ RSpec.describe "Properties API:", type: :request do
       place_name = JSON.parse(response.body)["data"]
 
       expect(response.status).to eq(201)
-      expect(place_name["name"]).to eq(@property.name)
+      expect(place_name["name"]).to eq(@property_params[:name])
       expect(place_name["user_id"]).to eq(@user.id)
     end
 
