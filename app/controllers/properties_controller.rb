@@ -14,6 +14,15 @@ class PropertiesController < ApplicationController
                   }, status: :ok
   end
 
+  def get_properties_based_on_preferences
+    user_properties = Property.where(user_preferences_params).order(created_at: :DESC).page(params[:page])
+    render json: {
+      status: "Success",
+      message: "Properties loaded.",
+      data: user_properties
+      }, status: :ok
+  end
+
   # GET /properties/1
   def show
     render json: {
@@ -95,26 +104,12 @@ class PropertiesController < ApplicationController
       end
     end
 
-    # def verify_user_from_required_params
-    #   if @user.id != property_params[:user_id]
-    #     render json: {
-    #       status: "Error",
-    #       message: "Unauthorized access.",
-    #       }, status: :unauthorized 
-    #   end
-    # end
-
-    # def verify_user_from_params
-    #   if @user.id != params[:user_id]
-    #     render json: {
-    #       status: "Error",
-    #       message: "Unauthorized access.",
-    #       }, status: :unauthorized 
-    #   end
-    # end
-
     # Only allow a list of trusted parameters through.
     def property_params
       params.require(:property).permit(:name, :rent_price, :tenant_count, :property_count, :bldg_no, :street, :barangay, :complete_address, :picture_urls, :latitude, :longitude, :like_count, :watch_list_count, :homie_value, :cost_living_index, :flood_index, :posted, :user_id, :city_id, :rent_id, :stay_period_id, :property_type_id)
+    end
+
+    def user_preferences_params
+      params.permit(:city_id, :rent_id, :stay_period_id, :property_type_id)
     end
 end

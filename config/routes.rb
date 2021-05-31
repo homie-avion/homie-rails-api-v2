@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   
   resources :properties
 
+  match "/recommendations" => "properties#get_properties_based_on_preferences", via: [:get], as: :get_properties_based_on_preferences
+
   # user routes 
   resource :users, only: [:create]
   resource :user, only: [:update, :destroy] , as: :user
