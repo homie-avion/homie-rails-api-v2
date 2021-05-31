@@ -1,5 +1,5 @@
 
-cities = ["Makati City", "Quezon City", "Pasay city"]
+cities = ["Quezon City", "Makati city"]
 image_number = [2,3].sample
 FactoryBot.define do
   factory :property do
@@ -24,7 +24,11 @@ FactoryBot.define do
     street {Faker::Name.unique.first_name.to_s + " St."}
     barangay {Faker::Name.unique.last_name.to_s}
     # complete_address {"#2, Sample Streeet, Sample Barangay, Makati City"}
-    complete_address {bldg_no+", "+street+", "+barangay+", "+ cities.sample}
+    # complete_address {bldg_no+", "+street+", "+barangay+", "+ cities.sample}
     picture_urls {["https://picsum.photos/640/360.jpg?random=1"] * image_number}
+
+    after(:build) do |o, values|
+      o.complete_address = values.bldg_no+", "+values.street+", "+values.barangay+", "+ City.find_by(id: values.city_id).name
+    end
   end
 end
