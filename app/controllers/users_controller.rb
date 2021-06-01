@@ -13,13 +13,22 @@ class UsersController < ApplicationController
       
       role = Role.find_by(name: params[:role])
 
-      @user = User.create(user_params)
+      @user = User.new(user_params)
 
       # puts @user.errors.inspect
-      if @user.valid? && @user.role_id == role.id
+      if @user.save && @user.role_id == role.id
         token = encode_token({user_id: @user.id})
+        get_preferences
         render json: {
-          data: @user,
+          data: {
+            user: @user,
+            preferences: { 
+              city: @cities,
+              rent: @rents,
+              stay_period: @stay_periods,
+              property_type: @property_types
+            }
+          },
           message: "Account created.",
           status: "Success",
           token: token
@@ -39,13 +48,18 @@ class UsersController < ApplicationController
 
     if @user &&  @user.authenticate(params[:password])
       
-      cities_preferred = @user.cities.pluck(:name).inspect
+      get_preferences
 
       token = encode_token({user_id: @user.id})
       render json: {
         data: {
           user: @user,
-          cities_preferred: cities_preferred
+          preferences: { 
+            city: @cities,
+            rent: @rents,
+            stay_period: @stay_periods,
+            property_type: @property_types
+          }
         },
         message: "User successfully logged in.",
         status: "Success",
@@ -61,10 +75,17 @@ class UsersController < ApplicationController
 
 
   def auto_login
-    cities_preferred = @user.cities.pluck(:name).inspect
+    get_preferences
     render json: {
-      user: @user,
-      cities_preferred: cities_preferred
+      data: {
+        user: @user,
+        preferences: { 
+          city: @cities,
+          rent: @rents,
+          stay_period: @stay_periods,
+          property_type: @property_types
+        }
+      }
     }
   end
 
@@ -106,9 +127,16 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.permit(:username, :password, :email, :role_id, :first_name, :last_name,
-                  :property_type_preference, :rent_price_preference,
-                  :length_of_stay_preference, :city_preference)
-  end
+    def get_preferences
+      @cities = @user.cities.pluck(:id)
+      @rents = @user.rents.pluck(:id)
+      @stay_periods = @user.stay_periods.pluck(:id)
+      @property_types = @user.property_types.pluck(:id)
+    end
+
+    def user_params
+      params.permit(:username, :password, :email, :role_id, :first_name, :last_name,
+                    :property_type_preference, :rent_price_preference,
+                    :length_of_stay_preference, :city_preference)
+    end
 end

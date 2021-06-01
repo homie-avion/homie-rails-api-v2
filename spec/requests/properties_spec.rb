@@ -23,21 +23,18 @@ RSpec.describe "Properties API:", type: :request do
             {name: "Less than 10K Php"},
             {name: "Between 10K to 15K Php"},
             {name: "Between 15K to 20K Php"},
-            {name: "20K php and up"},
-            {name: "Any"},
+            {name: "20K php and up"}
             ])
   
       stay_periods  = StayPeriod.create([
             {name: "Up to 6 months"},
-            {name: "Maximum of 1 year"},
-            {name: "Any"}
+            {name: "Maximum of 1 year"}
           ])
   
       property_type = PropertyType.create([
               {name: "Condominium"},
               {name: "Townhouse"},
-              {name: "Dormitory"},
-              {name: "Any"},
+              {name: "Dormitory"}
             ])
       # create role, user, city, rent, stay_period, property_type, property
       @user_role = create :role, :user_role
@@ -50,7 +47,7 @@ RSpec.describe "Properties API:", type: :request do
       @city_1 = City.find_by(name: "Quezon City")
       @rent = Rent.find_by(name: "Between 15K to 20K Php")
       @stay_period = StayPeriod.find_by(name: "Maximum of 1 year")
-      @property_type = PropertyType.find_by(name: "Any")
+      @property_type = PropertyType.find_by(name: "Condominium")
 
       # @property = create :property, :sample_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
       @property = create :random_property, user_id: @user.id, city_id: @city.id, rent_id: @rent.id, stay_period_id: @stay_period.id, property_type_id: @property_type.id
@@ -79,9 +76,10 @@ RSpec.describe "Properties API:", type: :request do
       @auth = { "Authorization" => "Bearer #{@token}" }
 
       # 
-      @user_based_peferences = {city_id: City.all.pluck(:id).sample,
+      @user_based_peferences = {city_id: [1,2],
                                 rent_id: Rent.all.pluck(:id).sample, 
-                                stay_period_id: StayPeriod.all.pluck(:id).sample}
+                                stay_period_id: StayPeriod.all.pluck(:id).sample,
+                                property_type_id: nil}
     end
     
     # GET /properties

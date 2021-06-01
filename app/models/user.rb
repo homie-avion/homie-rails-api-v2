@@ -16,6 +16,12 @@ class User < ApplicationRecord
   
   has_many :city_preferences
   has_many :cities, through: :city_preferences
+  has_many :rent_preferences
+  has_many :rents, through: :rent_preferences
+  has_many :stay_period_preferences
+  has_many :stay_periods, through: :stay_period_preferences
+  has_many :property_type_preferences
+  has_many :property_types, through: :property_type_preferences
 
 
   # scoping
@@ -25,5 +31,5 @@ class User < ApplicationRecord
   scope :unapproved_partners, -> { partners.where(approved: false) }
   scope :unapproved_partners_count, -> { partners.where(approved: false).count }
 
-  scope :cities_preferred, -> {city_preferences.pluck(:city_id)}
+  # scope :cities_preferred, -> {city_preferences.pluck(:city_id)}
 end

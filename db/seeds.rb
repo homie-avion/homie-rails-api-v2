@@ -40,21 +40,18 @@ rents = Rent.create([
           {name: "Less than 10K Php"},
           {name: "Between 10K to 15K Php"},
           {name: "Between 15K to 20K Php"},
-          {name: "20K php and up"},
-          {name: "Any"},
+          {name: "20K php and up"}
           ])
 
 stay_periods  = StayPeriod.create([
           {name: "Up to 6 months"},
-          {name: "Maximum of 1 year"},
-          {name: "Any"}
+          {name: "Maximum of 1 year"}
         ])
 
 property_type = PropertyType.create([
           {name: "Condominium"},
           {name: "Townhouse"},
-          {name: "Dormitory"},
-          {name: "Any"},
+          {name: "Dormitory"}
 ])
 
 
