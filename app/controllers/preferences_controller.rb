@@ -2,6 +2,20 @@ class PreferencesController < ApplicationController
   before_action :authorized
   before_action :get_preferences
   # before_action :preference_params
+  def do_get_preferences
+    get_preferences
+
+    render json: {
+      data: {
+        preferences: { 
+          city: @cities,
+          rent: @rents,
+          stay_period: @stay_periods,
+          property_type: @property_types
+        }
+      }
+    }
+  end
 
   def do_update_preferences
     
@@ -12,6 +26,17 @@ class PreferencesController < ApplicationController
       update_preferences(params["preference"][:stay_period], @stay_periods , StayPeriod, StayPeriodPreference, "stay_period_id")
       update_preferences(params["preference"][:property_type], @property_types , PropertyType, PropertyTypePreference, "property_type_id")
     end
+
+    render json: {
+      data: {
+        preferences: { 
+          city: @cities,
+          rent: @rents,
+          stay_period: @stay_periods,
+          property_type: @property_types
+        }
+      }
+    }
   end
 
   private

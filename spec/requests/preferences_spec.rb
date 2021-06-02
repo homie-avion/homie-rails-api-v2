@@ -124,8 +124,6 @@ RSpec.describe "Models : User's Preferences", type: :request do
       expect(data["preferences"]["property_type"]).to match_array(@user_input_prefer[:property_type])
 
       post do_update_preferences_url, params: @user_input_prefer, headers: { "Authorization" => "Bearer #{@token}"}, as: :json
-
-      get auto_login_url, headers: { "Authorization" => "Bearer #{@token}" }, as: :json
       data = JSON.parse(response.body)["data"]
       # puts data
       expect(data["preferences"]["city"]).to match_array(@user_input_prefer[:city]) 
@@ -136,7 +134,7 @@ RSpec.describe "Models : User's Preferences", type: :request do
 
       post do_update_preferences_url, params: @user_input_prefer2, headers: { "Authorization" => "Bearer #{@token}"}, as: :json
 
-      get auto_login_url, headers: { "Authorization" => "Bearer #{@token}" }, as: :json
+      get do_get_preferences_url, headers: { "Authorization" => "Bearer #{@token}" }, as: :json
       data = JSON.parse(response.body)["data"]
       # puts data
       expect(data["preferences"]["city"]).to match_array(@user_input_prefer2[:city]) 
