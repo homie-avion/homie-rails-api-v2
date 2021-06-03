@@ -37,10 +37,10 @@ cities = City.create([
           ])
 
 rents = Rent.create([
-          {name: "Less than 10K Php"},
-          {name: "Between 10K to 15K Php"},
-          {name: "Between 15K to 20K Php"},
-          {name: "20K php and up"}
+          {name: "Less than 10K Php", min:5000, max:10000},
+          {name: "Between 10K to 15K Php", min:10001, max:15000},
+          {name: "Between 15K to 20K Php", min:15001, max:20000},
+          {name: "20K php and up",  min:20000, max:100000}
           ])
 
 stay_periods  = StayPeriod.create([
@@ -57,7 +57,8 @@ property_type = PropertyType.create([
 
 (1..20).each do |id|
   FactoryBot.create(:random_property,
-    user_id: [User.find_by(email: "landlord@gmail.com").id, User.find_by(email: "landlord1@gmail.com").id].sample, 
+    user_id: [  User.find_by(email: "landlord@gmail.com").id, 
+                User.find_by(email: "landlord1@gmail.com").id].sample, 
     city_id: City.all.pluck(:id).sample, 
     rent_id: Rent.all.pluck(:id).sample, 
     stay_period_id: StayPeriod.all.pluck(:id).sample, 

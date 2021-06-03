@@ -107,6 +107,9 @@ RSpec.describe "Properties API:", type: :request do
       get get_properties_based_on_preferences_url(@user_based_peferences, page:1), headers: @auth , as: :json
       # puts Property.count
       # puts @user_based_peferences
+      # puts request.inspect
+      # puts ""
+      # puts response.inspect
       place_name = JSON.parse(response.body)["data"]
       # puts JSON.parse(response.body)["data"]
       expect(response.status).to eq(200)

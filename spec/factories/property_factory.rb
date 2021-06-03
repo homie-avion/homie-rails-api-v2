@@ -17,7 +17,6 @@ FactoryBot.define do
 
   factory :random_property, class: Property do
     name {Faker::Name.unique.name + "'s Place"}
-    rent_price {Faker::Number.within(range: 10000.00..50000.00)}
     tenant_count {Faker::Number.within(range: 1..20)}
     property_count {Faker::Number.within(range: 1..20)}
     bldg_no {"#"+Faker::Number.within(range: 1..20).to_s}
@@ -29,6 +28,7 @@ FactoryBot.define do
 
     after(:build) do |o, values|
       o.complete_address = values.bldg_no+", "+values.street+", "+values.barangay+", "+ City.find_by(id: values.city_id).name
+      o.rent_price  = Faker::Number.within(range: (Rent.find_by(id: values.rent_id).min)..(Rent.find_by(id: values.rent_id).max))
     end
   end
 end
