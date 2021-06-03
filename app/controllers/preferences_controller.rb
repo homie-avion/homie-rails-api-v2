@@ -25,6 +25,7 @@ class PreferencesController < ApplicationController
       update_preferences(params["preference"][:rent], @rents , Rent, RentPreference, "rent_id")
       update_preferences(params["preference"][:stay_period], @stay_periods , StayPeriod, StayPeriodPreference, "stay_period_id")
       update_preferences(params["preference"][:property_type], @property_types , PropertyType, PropertyTypePreference, "property_type_id")
+      get_preferences
     end
 
     render json: {
@@ -35,7 +36,9 @@ class PreferencesController < ApplicationController
           stay_period: @stay_periods,
           property_type: @property_types
         }
-      }
+      },
+      message: "User Preferences updated.",
+      status: "Success",
     }
   end
 
