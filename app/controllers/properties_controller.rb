@@ -15,6 +15,7 @@ class PropertiesController < ApplicationController
   end
 
   def get_properties_based_on_preferences
+    # puts params[:page]
     user_properties = Property.where(user_preferences_params).order(created_at: :DESC).page(params[:page])
     render json: {
       status: "Success",
@@ -110,6 +111,16 @@ class PropertiesController < ApplicationController
     end
 
     def user_preferences_params
-      params.permit(:city_id, :rent_id, :stay_period_id, :property_type_id)
+      f_params = {}
+      permitted_params = [:city_id, :rent_id, :stay_period_id, :property_type_id] 
+      
+      permitted_params.each do | value |
+        if params[value] != nil
+          f_params[value] = params[value]
+          puts f_params[value]
+        end
+      end
+      return f_params
+      # {city_id: params[:city_id], rent_id: params[:rent_id], stay_period_id: params[:stay_period_id], property_type_id: params[:property_type_id]}
     end
 end

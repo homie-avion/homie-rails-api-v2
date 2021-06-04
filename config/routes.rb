@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   
   resources :properties
 
-  match "/recommendations" => "properties#get_properties_based_on_preferences", via: [:get], as: :get_properties_based_on_preferences
+  match "/recommendations" => "properties#get_properties_based_on_preferences", via: [:post], as: :get_properties_based_on_preferences
 
   # resources :preferences, only: [:index]
   match "/do_get_preferences" => "preferences#do_get_preferences", via: [:get], as: :do_get_preferences

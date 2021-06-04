@@ -55,7 +55,7 @@ property_type = PropertyType.create([
 ])
 
 
-(1..20).each do |id|
+(1..100).each do |id|
   FactoryBot.create(:random_property,
     user_id: [  User.find_by(email: "landlord@gmail.com").id, 
                 User.find_by(email: "landlord1@gmail.com").id].sample, 

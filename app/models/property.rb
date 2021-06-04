@@ -1,5 +1,5 @@
 class Property < ApplicationRecord
-  paginates_per 5
+  paginates_per 10
 
   validates :name, presence: true
 

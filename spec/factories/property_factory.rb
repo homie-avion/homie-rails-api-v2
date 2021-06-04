@@ -28,7 +28,8 @@ FactoryBot.define do
 
     after(:build) do |o, values|
       o.complete_address = values.bldg_no+", "+values.street+", "+values.barangay+", "+ City.find_by(id: values.city_id).name
-      o.rent_price  = Faker::Number.within(range: (Rent.find_by(id: values.rent_id).min)..(Rent.find_by(id: values.rent_id).max))
+      o.rent_price  = Faker::Number.within(
+        range: (Rent.find_by(id: values.rent_id)[:min].to_i)..(Rent.find_by(id: values.rent_id)[:max].to_i))
     end
   end
 end
