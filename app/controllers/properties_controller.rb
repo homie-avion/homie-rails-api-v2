@@ -33,6 +33,16 @@ class PropertiesController < ApplicationController
       }, status: :ok
   end
 
+  # GET /properties/1
+  def get_property
+    set_property_public
+    render json: {
+      status: "Success",
+      message: "Property loaded.",
+      data: @property
+      }, status: :ok
+  end
+
   # POST /properties
   def create
     @property = Property.new(property_params)
@@ -94,6 +104,11 @@ class PropertiesController < ApplicationController
       return item_not_found
     end
 
+    def set_property_public
+      @property = Property.where(id: params[:id])
+      return item_not_found
+    end
+
     def item_not_found
       if @property.length == 0
         render json: {
@@ -117,7 +132,7 @@ class PropertiesController < ApplicationController
       permitted_params.each do | value |
         if params[value] != nil
           f_params[value] = params[value]
-          puts f_params[value]
+          # puts f_params[value]
         end
       end
       return f_params

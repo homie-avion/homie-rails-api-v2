@@ -19,6 +19,7 @@ class UsersController < ApplicationController
       if @user.save && @user.role_id == role.id
         token = encode_token({user_id: @user.id})
         get_preferences
+        include_role_name
         render json: {
           data: {
             user: @user,
@@ -27,7 +28,8 @@ class UsersController < ApplicationController
               rent: @rents,
               stay_period: @stay_periods,
               property_type: @property_types
-            }
+            },
+            role: @role
           },
           message: "Account created.",
           status: "Success",
@@ -49,7 +51,7 @@ class UsersController < ApplicationController
     if @user &&  @user.authenticate(params[:password])
       
       get_preferences
-
+      include_role_name
       token = encode_token({user_id: @user.id})
       render json: {
         data: {
@@ -59,7 +61,8 @@ class UsersController < ApplicationController
             rent: @rents,
             stay_period: @stay_periods,
             property_type: @property_types
-          }
+          },
+          role: @role
         },
         message: "User successfully logged in.",
         status: "Success",
@@ -76,6 +79,7 @@ class UsersController < ApplicationController
 
   def auto_login
     get_preferences
+    include_role_name
     render json: {
       data: {
         user: @user,
@@ -84,7 +88,8 @@ class UsersController < ApplicationController
           rent: @rents,
           stay_period: @stay_periods,
           property_type: @property_types
-        }
+        },
+        role: @role
       }
     }
   end
@@ -92,11 +97,22 @@ class UsersController < ApplicationController
   # PATCH or PUT /user
   def update
     # check_user 
+    get_preferences
+    include_role_name
     if @user.update(user_params)
       render json: {
                     status: "Success",
                     message: "User updated.",
-                    data: @user
+                    data: {
+                      user: @user,
+                      preferences: { 
+                        city: @cities,
+                        rent: @rents,
+                        stay_period: @stay_periods,
+                        property_type: @property_types
+                      },
+                      role: @role
+                    }
                     }, status: :ok
     else
       render json: {
@@ -133,10 +149,14 @@ class UsersController < ApplicationController
       @stay_periods = @user.stay_periods.pluck(:id)
       @property_types = @user.property_types.pluck(:id)
     end
+    
+    def include_role_name 
+      @role = @user.role[:name]
+    end
 
     def user_params
-      params.permit(:username, :password, :email, :role_id, :first_name, :last_name,
+      params.permit(:username, :password, :email, :first_name, :last_name,
                     :property_type_preference, :rent_price_preference,
-                    :length_of_stay_preference, :city_preference)
+                    :length_of_stay_preference, :city_preference, :role_id)
     end
 end

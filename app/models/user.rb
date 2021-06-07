@@ -14,13 +14,13 @@ class User < ApplicationRecord
   has_many :user, class_name: "Chat", foreign_key: "user_id", dependent: :nullify
   has_many :partner, class_name: "Chat", foreign_key: "partner_id", dependent: :nullify
   
-  has_many :city_preferences
+  has_many :city_preferences, dependent: :destroy
   has_many :cities, through: :city_preferences
-  has_many :rent_preferences
+  has_many :rent_preferences, dependent: :destroy
   has_many :rents, through: :rent_preferences
-  has_many :stay_period_preferences
+  has_many :stay_period_preferences, dependent: :destroy
   has_many :stay_periods, through: :stay_period_preferences
-  has_many :property_type_preferences
+  has_many :property_type_preferences, dependent: :destroy
   has_many :property_types, through: :property_type_preferences
 
 
