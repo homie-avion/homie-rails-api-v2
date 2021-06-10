@@ -106,8 +106,8 @@ RSpec.describe "Properties API:", type: :request do
     # GET /properties
     it "POST /properties should get the properties based on user preferences " do
       post get_properties_based_on_preferences_url, params: @user_based_peferences1.merge(page:1), headers: @auth , as: :json
-      puts @user_based_peferences1[:city_id]
-      print Property.all.pluck(:city_id)
+      # puts @user_based_peferences1[:city_id]
+      # print Property.all.pluck(:city_id)
       # puts ""
       # puts response.inspect
       place_name = JSON.parse(response.body)["data"]

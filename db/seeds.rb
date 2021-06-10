@@ -40,7 +40,7 @@ rents = Rent.create([
           {name: "Less than 10K Php", min:5000, max:10000},
           {name: "Between 10K to 15K Php", min:10001, max:15000},
           {name: "Between 15K to 20K Php", min:15001, max:20000},
-          {name: "20K php and up",  min:20000, max:100000}
+          {name: "20K php and up",  min:20001, max:100000}
           ])
 
 stay_periods  = StayPeriod.create([

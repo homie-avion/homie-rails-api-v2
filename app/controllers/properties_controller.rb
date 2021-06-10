@@ -17,10 +17,20 @@ class PropertiesController < ApplicationController
   def get_properties_based_on_preferences
     # puts params[:page]
     user_properties = Property.where(user_preferences_params).order(created_at: :DESC).page(params[:page])
+    user_final = []
+    user_properties.each { |item|
+      user_properties1 = item.attributes.inject({}) { |new_hash, (key, value)|
+        new_hash.merge(key=>value) 
+      }
+      user_properties1["username"] = item.user[:username]
+      # puts item.user.inspect
+      user_final.push(user_properties1)
+    }
+
     render json: {
       status: "Success",
       message: "Properties loaded.",
-      data: user_properties
+      data: user_final,
       }, status: :ok
   end
 
@@ -36,10 +46,18 @@ class PropertiesController < ApplicationController
   # GET /properties/1
   def get_property
     set_property_public
+
+    user_properties1 = @property.attributes.inject({}) { |new_hash, (key, value)|
+      new_hash.merge(key=>value) 
+    }
+    user_properties1["username"] = @property.user[:username]
+    # puts item.user.inspect
+      
+
     render json: {
       status: "Success",
       message: "Property loaded.",
-      data: @property
+      data: user_properties1
       }, status: :ok
   end
 
