@@ -10,10 +10,6 @@
 
 #  Create User
 
-# require 'json'
-require 'factory_bot_rails'
-require 'faker'
-
 Role.new(name: "user").save
 Role.new(name: "partner").save
 # Role.new(name: "admin").save
